@@ -37,13 +37,14 @@ Algo:
   * loop through string characters
     * for chars 'A' to 'Z', do rotation by 13, base 26, offset 65
     * for chars 'a' to 'z', do rotation by 13, base 26 offset 97
+      (extract to a separate function)
     * all other chars, add to result as is
   * return result
 */
 
-// rotate the number num by rot steps in a base with certain offset
-function rotOffset(num, rot, base, offset) {
-  return (((num - offset) + rot) % base) + offset;
+// rotate the number num by rot steps in a basis with certain offset
+function offsetRot(num, rot, basis, offset) {
+  return ((num - offset) + rot) % basis + offset;
 }
 
 function rot13(str) {
@@ -57,11 +58,11 @@ function rot13(str) {
   for (var i = 0; i < str.length; i++) {
     chr = str[i];
     if (chr >= 'A' && chr <= 'Z') {
-      newChr= String.fromCharCode(rotOffset(chr.charCodeAt(0), 13, BASIS, UPPER_OFFSET));
+      newChr = String.fromCharCode(offsetRot(chr.charCodeAt(0), 13, BASIS, UPPER_OFFSET));
     } else if (chr >= 'a' && chr <= 'z') {
-      newChr= String.fromCharCode(rotOffset(chr.charCodeAt(0), 13, BASIS, LOWER_OFFSET));
+      newChr = String.fromCharCode(offsetRot(chr.charCodeAt(0), 13, BASIS, LOWER_OFFSET));
     } else {
-      newChr= str[i];
+      newChr = str[i];
     }
     result += newChr;
   }

@@ -43,8 +43,12 @@ Algo:
 */
 
 // rotate the number num by rot steps in a basis with certain offset
+// return ((num - offset) + rot) % basis + offset;
 function offsetRot(num, rot, basis, offset) {
-  return ((num - offset) + rot) % basis + offset;
+  var numOffset = num - offset; // shift
+  var numOffsetRotated = (numOffset + rot) % basis; // rotate
+  var numRotated = numOffsetRotated + offset; // unshift
+  return numRotated;
 }
 
 function rot13(str) {

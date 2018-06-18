@@ -89,7 +89,7 @@ arr3[5].b = 3;                         // or, `arr3[5]['b'] = 3;`
 obj;                                   // { a: "two", b: 3 }
 
 
-// 3. Array Concat Part 2
+// 4. Array Concat Part 2
 
 // The concat function from the previous exercise could only concatenate a maximum of two arrays. For this exercise, you are going to extend that functionality. Refactor the concat function to allow for the concatenation of two or more arrays or values.
 

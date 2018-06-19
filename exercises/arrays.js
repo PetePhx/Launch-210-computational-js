@@ -222,3 +222,148 @@ shift(testArray);                // 1
 testArray;                       // [2, 3]
 unshift(testArray, 5);           // 3
 testArray;                       // [5, 2, 3]
+
+
+// 8. Array Slice and Splice
+
+// In this exercise, you will implement your own versions of the Array.prototype.slice and Array.prototype.splice methods according to the following specifications.
+
+// The slice function takes three arguments: an array, and two integers representing a begin and an end index. The function returns a new array containing the extracted elements starting from begin up to but not including end. slice does not mutate the original array.
+
+// The splice function changes the contents of an array by deleting existing elements and/or adding new elements. The function takes the following arguments: an array, a start index, a deleteCount, and zero or more elements to be added. The function removes deleteCount number of elements from the array, beginning at the start index. If any optional element arguments are provided, splice inserts them into the array beginning at the start index. The function returns a new array containing the deleted elements, or an empty array ([]) if no elements are deleted. splice mutates the original array.
+
+// Additional specifications:
+
+// slice:
+//
+//   The values of begin and end will always be integers greater than or equal to 0.
+//   If the value of begin or end is greater than the length of the array, set it to equal the length.
+//
+// splice:
+//
+//   The values of start and deleteCount will always be integers greater than or equal to 0.
+//   If the value of start is greater than the length of the array, set it to equal the length.
+//   If the value of deleteCount is greater than the number of elements from start up to the end of the array, set deleteCount to the difference between the array's length and start.
+//   Takes optional arguments for elements to add to the array; denoted by the parameters element1 up to elementN. If no elements to add are provided, splice only removes elements from the array.
+
+function slice(array, begin, end) {
+  var result = [];
+  if (begin > array.length) begin = array.length;
+  if (end > array.length) end = array.length;
+
+  for (var i = begin; i < end; i++) { result[i - begin] = array[i]; }
+
+  return result;
+}
+
+slice([1, 2, 3], 1, 2);               // [2]
+slice([1, 2, 3], 2, 0);               // []
+slice([1, 2, 3], 5, 1);               // []
+slice([1, 2, 3], 0, 5);               // [1, 2, 3]
+
+var arr = [1, 2, 3];
+slice(arr, 1, 3);                     // [2, 3]
+arr;                                  // [1, 2, 3]
+
+function splice(array, start, deleteCount, ...elements) {
+  if (start > array.length) start = array.length;
+  if (deleteCount > array.length - start) deleteCount = array.length - start;
+  var result = slice(array, start, start + deleteCount);
+
+  for (var i = start; i < array.length - deleteCount; i++) { array[i] = array[i + deleteCount]; } // shift left
+  array.length -= deleteCount;
+  for (var i = array.length - 1; i >= start; i--) { array[i + elements.length] = array[i]; } // shift right
+  for (var i = 0; i < elements.length; i++) { array[start + i] = elements[i]; } // copy elements to array
+
+  return result;
+}
+
+// alternative implementation for splice:
+function splice(array, start, deleteCount, ...elements) {
+  if (start > array.length) start = array.length;
+  if (deleteCount > array.length - start) deleteCount = array.length - start;
+
+  var result = slice(array, start, start + deleteCount);        // the part taken out
+  var tail = slice(array, start + deleteCount, array.length);   // the part next to it
+
+  array.length = start;
+  array.push(...elements);
+  array.push(...tail);
+
+  return result;
+}
+
+splice([1, 2, 3], 1, 2);              // [2, 3]
+splice([1, 2, 3], 1, 3);              // [2, 3]
+splice([1, 2, 3], 1, 0);              // []
+splice([1, 2, 3], 0, 1);              // [1]
+splice([1, 2, 3], 1, 0, 'a');         // []
+
+var arr = [1, 2, 3];
+splice(arr, 1, 1, 'two');             // [2]
+arr;                                  // [1, "two", 3]
+
+var arr = [1, 2, 3];
+splice(arr, 1, 2, 'two', 'three');    // [2, 3]
+arr;                                  // [1, "two", "three"]
+
+var arr = [1, 2, 3];
+splice(arr, 1, 0);                    // []
+splice(arr, 1, 0, 'a');               // []
+arr;                                  // [1, "a", 2, 3]
+
+var arr = [1, 2, 3];
+splice(arr, 0, 0, 'a');               // []
+arr;                                  // ["a", 1, 2, 3]
+
+// 9. Oddities
+
+// The oddities function takes an array as an argument and returns a new array containing every other element from the input array. The values in the returned array are the first (index 0), third, fifth, and so on, elements of the input array. The program below uses the array returned by oddities as part of a comparison. Can you explain the results of these comparisons?
+
+function oddities(array) {
+  var oddElements = [];
+  var i;
+
+  for (i = 0; i < array.length; i += 2) {
+    oddElements.push(array[i]);
+  }
+
+  return oddElements;
+}
+
+oddities([2, 3, 4, 5, 6]) === [2, 4, 6];      // false
+oddities(['abc', 'def']) === ['abc'];         // false
+
+// since each array is a separate object, the comparison operator === returns false even though the individual array elements are equal in both cases.
+
+// 10. Array Comparison
+
+// The array comparison function that we implemented in the Arrays lesson implicitly assumed that when comparing two arrays, any matching values must also have matching index positions. The objective of this exercise is to reimplement the function so that two arrays containing the same values—but in a different order—are considered equal. For example, [1, 2, 3] === [3, 2, 1] should return true.
+
+
+function count(arr, elm) {
+  var count = 0;
+  for (var i = 0; i < arr.length; i++) { if (arr[i] === elm) count++; }
+  return count;
+}
+
+function areArraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+
+  for(var i = 0; i < arr.length; i++) {
+    if (count(arr1, arr[i]) !== count(arr2, arr[i])) return false;
+  }
+
+  return true;
+}
+
+console.log(areArraysEqual([1, 2, 3], [1, 2, 3]));                  // true
+console.log(areArraysEqual([1, 2, 3], [3, 2, 1]));                  // true
+console.log(areArraysEqual(['a', 'b', 'c'], ['b', 'c', 'a']));      // true
+console.log(areArraysEqual(['1', 2, 3], [1, 2, 3]));                // false
+console.log(areArraysEqual([1, 1, 2, 3], [3, 1, 2, 1]));            // true
+console.log(areArraysEqual([1, 2, 3, 4], [1, 1, 2, 3]));            // false
+console.log(areArraysEqual([1, 1, 2, 2], [4, 2, 3, 1]));            // false
+console.log(areArraysEqual([1, 1, 2], [1, 2, 2]));                  // false
+console.log(areArraysEqual([1, 1, 1], [1, 1]));                     // false
+console.log(areArraysEqual([1, 1], [1, 1]));                        // true

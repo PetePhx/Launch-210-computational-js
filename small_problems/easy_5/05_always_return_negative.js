@@ -29,5 +29,5 @@ An alternative solution would be to use the ternary operator (e.g., a ? b : c). 
 */
 
 function negative(num) {
-  return (num > 0 ? num : -1 * num);
+  return (num >= 0 ? -1 * num : num);
 }

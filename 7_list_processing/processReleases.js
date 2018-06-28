@@ -63,3 +63,17 @@ var newReleases = [
 processReleaseData(newReleases);
 
 // [{ id: 70111470, title: 'Die Hard'}, { id: 675465, title: 'Fracture' }];
+
+/*
+Further Exploration
+
+The current solution assumes that the value of id will be an integer value greater than 0. If it was possible to have a value of 0 for id, what would the implications be to the current solution? What changes, if any, would need to be made in order to handle the 0 value?
+
+*/
+
+// We'd have to explicitly check for presence of id and title in our function:
+
+function processReleaseData(data) {
+  return data.filter(release => release.id !== undefined && release.title !== undefined)
+             .map(release => ({ id: release.id, title: release.title }));
+}

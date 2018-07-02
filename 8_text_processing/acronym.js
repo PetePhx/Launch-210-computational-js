@@ -7,7 +7,9 @@ Write a function that generates and returns an acronym from a string of words. F
 */
 
 function acronym(string) {
-  return string.split(/[\s-]/).map(str => str[0].toUpperCase()).join('');
+  return string.split(/[\s-]/)
+               .map(str => str[0].toUpperCase())
+               .join('');
 }
 
 console.log(acronym('Portable Network Graphics'));                  // "PNG"

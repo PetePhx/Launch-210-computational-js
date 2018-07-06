@@ -26,12 +26,20 @@ Here is an example of version number ordering:
 */
 
 /*
+Inputs: two version strings. each series of numbers dot-separated
+
+Ouput: the result of comparison of version numbers.
+
+Rules: Compare major numbers first.
+          if un-equal, return result,
+          if equal, compare minor versions numbers. continue likewise
+       Missing parts are equivalent to 0.
 
 Algorithm:
   - split ver1, ver2 to arrays of numbers.
   - if ver1.length > ver2.length, pad ver2 with zero elements
     - similarly if ver2.length > ver1.length
-      - can be factored in a functino (padArraysZero)
+      - can be factored in a function (padArraysZero)
   - loop through ver1 indices
     - if ver1[idx] > ver2[idx] return 1
     - if ver1[idx] < ver2[idx] return -1

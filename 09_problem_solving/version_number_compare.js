@@ -35,6 +35,9 @@ Rules: Compare major numbers first.
           if equal, compare minor versions numbers. continue likewise
        Missing parts are equivalent to 0.
 
+       if non-digit-non-dot character, return null (invalid input)
+       if not starting and ending with perion, or double-period etc. return null (invalid)
+
 Algorithm:
   - split ver1, ver2 to arrays of numbers.
   - if ver1.length > ver2.length, pad ver2 with zero elements
@@ -47,6 +50,9 @@ Algorithm:
 */
 
 function compareVersions(ver1, ver2) {
+  var re = /^\d+(\.\d+)*$/;
+  if (!re.test(ver1) || !re.test(ver2)) return null; //invalid sequences
+
   var arr1 = ver1.split('.').map(Number);
   var arr2 = ver2.split('.').map(Number);
   var i;
@@ -73,3 +79,5 @@ function padArraysZero(arr1, arr2) {
 console.log(compareVersions('1', '1.0'));         // 0
 console.log(compareVersions('0.1', '1.0'));       // -1
 console.log(compareVersions('1.2.0', '1.18.0'));  // -1
+console.log(compareVersions('1.', '1.0'));        // null
+console.log(compareVersions('1.1', '1.a'));       // null

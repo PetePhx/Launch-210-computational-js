@@ -20,15 +20,15 @@ algorithm:
 
 */
 
-// var memo = [0, 1, 1];
-//
-// function fibonacci(n) {
-//   if (isNaN(n) || n < 1) return null;
-//   if (!memo[n]) {
-//     memo[n] = fibonacci(n - 1) + fibonacci(n - 2);
-//   }
-//   return memo[n];
-// }
+var memo = [0, 1, 1];
+
+function fibonacci(n) {
+  if (isNaN(n) || n < 1) return null;
+  if (!memo[n]) {
+    memo[n] = fibonacci(n - 1) + fibonacci(n - 2);
+  }
+  return memo[n];
+}
 
 /*
 Further Exploration
@@ -36,6 +36,7 @@ Further Exploration
 The current solution defines the memo object in the global scope. Can you use an IIFE (Immediately-Invoked Function Expression) to make memo private instead? If the concept of an IIFE is new to you, you may want to wait until after it is covered in course 220 before doing this Further Exploration exercise.
 */
 
+// fibo is an IIFE.
 
 function fibonacci(n, memo = [0, 1, 1]) {
   if (isNaN(n) || n < 1) return null;

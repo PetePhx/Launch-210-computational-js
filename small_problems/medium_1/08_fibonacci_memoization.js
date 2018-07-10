@@ -37,9 +37,14 @@ The current solution defines the memo object in the global scope. Can you use an
 */
 
 
-function fibonacci(n) {
-
+function fibonacci(n, memo = [0, 1, 1]) {
+  if (isNaN(n) || n < 1) return null;
+  return (function fibo (idx) {
+    if (!memo[idx]) { memo[idx] = fibo(idx - 1) + fibo(idx - 2); }
+    return memo[idx];
+  }(n));
 }
+
 
 console.log(fibonacci('hi')); // == null,
 console.log(fibonacci(-5)); // == null,
@@ -49,6 +54,9 @@ console.log(fibonacci(3)); // == 2,
 console.log(fibonacci(4)); // == 3,
 console.log(fibonacci(5)); // == 5,
 console.log(fibonacci(12)); // == 144,
-console.log(fibonacci(35)); // == 6765
-// console.log(fibonacci(50));       // 12586269025
-// console.log(fibonacci(100));      // 354224848179262000000 (large integer representation)
+console.log(fibonacci(20)); // == 6765
+console.log(fibonacci(30)); // == 832040
+console.log(fibonacci(35)); // == 9227465
+console.log(fibonacci(50));       // 12586269025
+console.log(fibonacci(100));      // 354224848179262000000 (large integer representation with roundoff)
+console.log(fibonacci(200));      // 2.8057117299251016e+41

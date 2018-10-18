@@ -1,3 +1,3 @@
-# Launch-210-computational-js
+# javascript-basics
 
-Launch School Course 210: Computational Thinking and JavaScript Programming
+Computational Thinking and JavaScript Programming
